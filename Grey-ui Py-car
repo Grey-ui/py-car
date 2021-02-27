@@ -1,23 +1,52 @@
-import RPi.GPIO as GPIO
+'''
+         0       1       2       3
+        in1     in2     in3     in4
+forw     1       0       1       0
+back     0       1       0       1
+left     1       0       1       0   (EnA -> 255, EnB -> 120)
+right    0       1       0       1    ( EnA -> 120, Enb -> 255)
+'''
 
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+
+IN1 = 0
+IN2 = 1
+IN3 = 2
+IN4 = 3
+EnA = GPIO.PWM(0, 0)
+EnB = GPIO.PWM(1, 0)
+
+GPIO.setup(0, GPIO.OUT)
+GPIO.setup(1, GPIO.OUT)
 GPIO.setup(2, GPIO.OUT)
-GPIO.setup(5, GPIO.OUT)
 GPIO.setup(3, GPIO.OUT)
-GPIO.setup(4, GPIO.OUT)
+
+def Change_speed(speed1, speed2):
+EnA.ChangeDutyCycle(speed1)
+EnB.ChangeDutyCycle(speed2)
 
 def forward():
-    GPIO.output(3, 1)
-    GPIO.output(4, 1)
+    GPIO.output(0, 1)
+    GPIO.output(1, 0)
+    GPIO.output(2, 1)
+    GPIO.output(3, 0)
+
 
 def backward():
-    GPIO.output(2, 1)
-    GPIO.output(5, 1)
+    GPIO.output(0, 0)
+    GPIO.output(1, 1)
+    GPIO.output(2, 0)
+    GPIO.output(3, 1)
 
 def right():
-    GPIO.output(2, 1)
-    GPIO.output(4, 1)
+    GPIO.output(0, 1)
+    GPIO.output(1, 0)
+    GPIO.output(2, 0)
+    GPIO.output(3, 1)
 
 def left():
-    GPIO.output(3, 1)
-    GPIO.output(5, 1)
-
+    GPIO.output(0, 0)
+    GPIO.output(1, 1)
+    GPIO.output(2, 1)
+    GPIO.output(3, 0)
